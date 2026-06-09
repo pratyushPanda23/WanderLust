@@ -1,0 +1,106 @@
+body{
+    font-family: "Plus Jakarta Sans", sans-serif !important;
+}
+.navbar {
+    min-height: 5rem;
+    background-color: white;
+}
+.fa-compass{
+    color: #fe424d;
+    font-size: 2rem;
+}
+.nav-link{
+    color: #222;
+}
+footer {
+    margin-top: 3rem;
+}
+
+.f-info {
+    height: 8rem;
+    background-color: #ebebeb;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 0.8rem;
+
+    border-top: 1px solid #d6d6d6;
+}
+
+.f-info-socials {
+    font-size: 1.5rem;
+
+    display: flex;
+    gap: 1.2rem;
+}
+
+.f-info-socials i {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.f-info-socials i:hover {
+    transform: scale(1.2);
+    color: #fe424d;
+}
+
+.f-info-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.f-info-links a {
+    text-decoration: none;
+    color: #222222;
+    font-weight: 500;
+}
+
+.f-info-links a:hover {
+    text-decoration: underline;
+    color: #fe424d;
+}
+
+.card{
+    border: none !important;
+    margin-bottom: 2rem ;
+}
+
+.card-img-top{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    height: 20rem;
+    object-fit: cover;
+}
+.card-body{
+    padding: 0 !important;
+}
+.card-text{
+    font-weight: 400 !important;
+}
+.listing-link{
+    text-decoration: none !important;
+}
+/* Card Effect */
+.card-img-overlay{
+    opacity: 0;
+}
+.card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: white;
+}
+.card {
+    border: none;
+    border-radius: 1rem;
+}
+
+.card-img-top {
+    border-radius: 1rem 1rem 0 0;
+}
+
+.btn {
+    border-radius: 0.5rem;
+}
