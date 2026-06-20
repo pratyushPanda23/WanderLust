@@ -8,7 +8,8 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const { listingSchema } = require("./schema.js");
+const { listingSchema, reviewSchema } = require("./schema.js");
+const Review = require("./MODELS/Review.js");
 
 //  CONNECTIOM WITH MONGOOSE
 connect()
@@ -37,9 +38,20 @@ app.get("/", (req, res) => {
   res.send("Hi, I am root");
 });
 
+//Validate the listing -- SERVER SIDE
 const validateListing = (req, res, next) => {
   let { error } = listingSchema.validate(req.body);
   if (result.error) {
+    throw new ExpressError(400, result.error);
+  } else {
+    next();
+  }
+};
+
+//Validate the review -- SERVER SIDE
+const validateReview = (req, res, next) => {
+  let { error } = reviewSchema.validate(req.body);
+  if (error) {
     throw new ExpressError(400, result.error);
   } else {
     next();
@@ -101,7 +113,7 @@ app.get(
   "/Listings/:id",
   wrapAsync(async (req, res) => {
     const { id } = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate("reviews");
     res.render("listings/show", { listing });
   }),
 );
@@ -113,6 +125,34 @@ app.delete(
     const { id } = req.params;
     await Listing.findByIdAndDelete(id);
     res.redirect("/listings");
+  }),
+);
+
+//Reviews--Post route
+app.post(
+  "/listings/:id/reviews",
+  validateReview,
+  wrapAsync(async (req, res) => {
+    let listing = await Listing.findById(req.params.id);
+    let newReview = new Review(req.body.review);
+    listing.reviews.push(newReview);
+    await newReview.save();
+    await listing.save();
+    res.redirect(`/listings/${listing._id}`);
+    console.log("new review saved");
+  }),
+);
+
+//Reviews--Delete route
+app.delete(
+  "/listings/:id/reviews/:reviewId",
+  wrapAsync(async (req, res) => {
+    let { id, reviewId } = req.params;
+    await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    let post = await Listing.findById(id).populate("reviews");
+    // console.log(post);
+    res.redirect(`/listings/${id}`);
   }),
 );
 

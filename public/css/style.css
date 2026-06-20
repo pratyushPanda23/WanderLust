@@ -104,3 +104,7 @@ footer {
 .btn {
     border-radius: 0.5rem;
 }
+.review-card{
+    margin-bottom: none !important;
+    border: none !important;
+}
